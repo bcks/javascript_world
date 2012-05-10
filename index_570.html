@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Javascript World Map</title>
+        <link rel="stylesheet" href="css/demo.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="css/demo-print.css" type="text/css" media="print">
+
+        <script src="js/raphael_2.0.2.js" type="text/javascript"></script>
+        <script src="js/world_570.js" type="text/javascript"></script>
+
+        <script type="text/javascript">        
+            window.onload = function () {
+				var current = null;
+				var map = {};
+				var m = {};				
+				var attr = {
+					fill: "#333",
+					stroke: "#888",
+					"stroke-width": .5,
+					"stroke-linejoin": "round"
+				};				
+				var map = {};
+				var R = Raphael("holder_570");
+				render_map(R,map,attr);		
+				for (var state in map) {							        
+    	            map[state].color = Raphael.getColor();
+	                (function (st, state) {
+						st[0].style.cursor = "pointer";
+						st[0].onmouseover = function () {
+							current && map[current].animate({fill: "#333", stroke: "#666"}, 300);
+							st.animate({fill: st.color, stroke: "#ccc"}, 300);
+							R.safari();
+							current = state;
+						};
+						st[0].onmouseout = function () {
+							st.animate({fill: "#333", stroke: "#666"}, 300);
+							R.safari();
+						};
+						
+						st[0].onclick = function () {
+							alert(state);
+						};
+					})(map[state], state);
+				}; // end for
+				
+				
+
+				function lon2x(lon) {
+					var xfactor = 1.5255;
+					var xoffset = 263.58;
+					var x = (lon * xfactor) + xoffset;
+					return x;
+				}
+				function lat2y(lat) {
+					var yfactor = -1.5255;
+					var yoffset = 130.5;
+					var y = (lat * yfactor) + yoffset;
+					return y;
+				}
+
+				var city_attr = {
+					fill: "#0f0",
+					stroke: "none",
+					opacity: .3
+				};
+				function plot(lat,lon,size) {
+					size = size * .5 + 4;
+					return R.circle(lon2x(lon), lat2y(lat), size).attr(city_attr);
+				}
+
+
+				var cities = {};
+
+				cities.Afghanistan = plot(33.93911,67.709953,20);
+				cities.Azerbaijan = plot(40.143105,47.576927,2);
+				cities.Bolivia = plot(-16.290154,-63.588653,1);
+				cities.Brazil = plot(-14.235004,-51.92528,3);
+				cities.Cameroon = plot(7.369722,12.354722,1);
+				cities.Colombia = plot(4.570868,-74.297333,1);
+				cities.DRC = plot(-4.038333,21.758664,2);
+				cities.DR = plot(18.735693,-70.162651,1);
+				cities.Ecuador = plot(-1.831239,-78.183406,1);
+				cities.Georgia = plot(42.315407,43.356892,1);
+				cities.Guatemala = plot(15.783471,-90.230759,1);
+				cities.Indonesia = plot(-0.789275,113.921327,3);
+				cities.Iraq = plot(33.223191,43.679291,25);
+				cities.Ivory_Coast = plot(7.539989,-5.54708,1);
+				cities.Kazakhstan = plot(48.019573,66.923684,1);
+				cities.Kenya = plot(-0.023559,37.906193,1);
+				cities.Kyrgyzstan = plot(41.20438,74.766098,1);
+				cities.Libya = plot(26.3351,17.228331,7);
+				cities.Mexico = plot(23.634501,-102.552784,24);
+				cities.Nepal = plot(28.394857,84.124008,4);
+				cities.Nigeria = plot(9.081999,8.675277,3);
+				cities.Pakistan = plot(30.375321,69.345116,17);
+				cities.Philippines = plot(12.879721,121.774017,35);
+				cities.Russia = plot(61.52401,105.318756,5);
+				cities.Somalia = plot(5.152149,46.199616,11);
+				cities.Sri_Lanka = plot(7.873054,80.771797,6);
+				cities.Syria = plot(34.802075,38.996815,1);
+				cities.Tunisia = plot(33.886917,9.537499,1);
+				cities.Turkmenistan = plot(38.969719,59.556278,1);
+				cities.Uganda = plot(1.373333,32.290275,1);
+				cities.Venezuela = plot(6.42375,-66.58973,1);
+				cities.Yemen = plot(15.552727,48.516388,5);
+				cities.Zimbabwe = plot(-19.015438,29.154857,2);
+
+				var current_city = null;
+				var city_box = null;
+				for (var city in cities) {							        
+    	            map[state].color = Raphael.getColor();
+	                (function (st, city) {
+						st[0].style.cursor = "pointer";
+						st[0].onmouseover = function () {
+							current_city && cities[current_city].animate({fill: "#0f0", opacity: .3}, 300);
+							st.animate({fill: "#0f0", opacity: 1}, 300);
+							R.safari();
+							current_city = city;
+						};
+						st[0].onmouseout = function () {
+							st.animate({fill: "#0f0", opacity: .3}, 300);
+							R.safari();
+						};
+						
+						st[0].onclick = function () {
+							if (t = document.getElementById(city_box)) { t.style.display = "none"; }
+							if (t = document.getElementById(city)) { t.style.display = "block"; }
+							city_box = city;
+						};
+
+
+						if (t = document.getElementById(city)) {
+								t.style.left = cities[city].attr('cx') + 'px';
+								t.style.top = cities[city].attr('cy') -20 + 'px';
+						}
+
+					})(cities[city], city);
+				}; // end for
+
+
+			};
+        </script>
+    </head>
+    <body>
+        <div id="holder_570" style="position:relative;">
+			<div id="Afghanistan" class="city_hover"><span class="c_label"><strong><strong>Afghanistan: 20</strong></strong><br />2 other</span></div>
+			<div id="Azerbaijan" class="city_hover"><span class="c_label"><strong>Azerbaijan: 2</strong><br /></span></div>
+			<div id="Bolivia" class="city_hover"><span class="c_label"><strong>Bolivia: 1</strong><br />1 other</span></div>
+			<div id="Brazil" class="city_hover"><span class="c_label"><strong>Brazil: 3</strong><br /></span></div>
+			<div id="Cameroon" class="city_hover"><span class="c_label"><strong>Cameroon: 1</strong><br /></span></div>
+			<div id="Colombia" class="city_hover"><span class="c_label"><strong>Colombia: 1</strong><br /></span></div>
+			<div id="DRC" class="city_hover"><span class="c_label"><strong>Democratic Republic of Congo: 2</strong><br />1 other</span></div>
+			<div id="DR" class="city_hover"><span class="c_label"><strong>Dominican Republic: 1</strong><br />1 other</span></div>
+			<div id="Ecuador" class="city_hover"><span class="c_label"><strong>Ecuador: 1</strong><br /></span></div>
+			<div id="Georgia" class="city_hover"><span class="c_label"><strong>Georgia: 1</strong><br /></span></div>
+			<div id="Guatemala" class="city_hover"><span class="c_label"><strong>Guatemala: 1</strong><br /></span></div>
+			<div id="Indonesia" class="city_hover"><span class="c_label"><strong>Indonesia: 3</strong><br />3 other</span></div>
+			<div id="Iraq" class="city_hover"><span class="c_label"><strong>Iraq: 25</strong><br />18 other</span></div>
+			<div id="Ivory_Coast" class="city_hover"><span class="c_label"><strong>Ivory Coast: 1</strong><br />1 other</span></div>
+			<div id="Kazakhstan" class="city_hover"><span class="c_label"><strong>Kazakhstan: 1</strong><br /></span></div>
+			<div id="Kenya" class="city_hover"><span class="c_label"><strong>Kenya: 1</strong><br />1 other</span></div>
+			<div id="Kyrgyzstan" class="city_hover"><span class="c_label"><strong>Kyrgyzstan: 1</strong><br /></span></div>
+			<div id="Libya" class="city_hover"><span class="c_label"><strong>Libya: 7</strong><br /></span></div>
+			<div id="Mexico" class="city_hover"><span class="c_label"><strong>Mexico: 24</strong><br />14 other</span></div>
+			<div id="Nepal" class="city_hover"><span class="c_label"><strong>Nepal: 4</strong><br />3 other</span></div>
+			<div id="Nigeria" class="city_hover"><span class="c_label"><strong>Nigeria: 3</strong><br /></span></div>
+			<div id="Pakistan" class="city_hover"><span class="c_label"><strong>Pakistan: 17</strong><br />6 other</span></div>
+			<div id="Philippines" class="city_hover"><span class="c_label"><strong>Philippines: 35</strong><br />32 other</span></div>
+			<div id="Russia" class="city_hover"><span class="c_label"><strong>Russia: 5</strong><br />1 other</span></div>
+			<div id="Somalia" class="city_hover"><span class="c_label"><strong>Somalia: 11</strong><br />1 other</span></div>
+			<div id="Sri_Lanka" class="city_hover"><span class="c_label"><strong>Sri Lanka: 6</strong><br /></span></div>
+			<div id="Syria" class="city_hover"><span class="c_label"><strong>Syria: 1</strong><br /></span></div>
+			<div id="Tunisia" class="city_hover"><span class="c_label"><strong>Tunisia: 1</strong><br /></span></div>
+			<div id="Turkmenistan" class="city_hover"><span class="c_label"><strong>Turkmenistan: 1</strong><br /></span></div>
+			<div id="Uganda" class="city_hover"><span class="c_label"><strong>Uganda: 1</strong><br /></span></div>
+			<div id="Venezuela" class="city_hover"><span class="c_label"><strong>Venezuela: 1</strong><br />1 other</span></div>
+			<div id="Yemen" class="city_hover"><span class="c_label"><strong>Yemen: 5</strong><br /></span></div>
+			<div id="Zimbabwe" class="city_hover"><span class="c_label"><strong>Zimbabwe: 2</strong><br />1 other</span></div>
+        </div>
+        <p><a href="http://backspace.com/mapapp/javascript_world/javascript_world.zip">Download the code</a></p>
+</body>
+</html>

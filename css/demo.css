@@ -1,0 +1,47 @@
+body {
+    background: #333;
+    color: #fff;
+    font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+
+#holder_570 {
+    height: 250px;
+    width: 570px;
+    margin: 2em auto;
+}
+#holder_1000 {
+    margin: 0 auto;
+    height: 400px;
+    width: 1000px;
+}
+a {
+	color: #666;
+}
+p { text-align: center; }
+
+.city_hover
+{
+	position: absolute;
+	display: none;
+	padding-left: 10px;
+	width: auto;
+	z-index: 2;
+	background-image: url(../img/arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 0 10px;
+}
+
+.city_hover .c_label
+{
+	display: block;
+	padding: 10px;
+	color: #000;
+	background-color: #fff;
+	/* IE fix */
+	overflow: hidden;
+}
+.city_hover .c_label strong {
+	font-weight: normal;
+	font-family: Georgia, Times, serif;
+	font-size: 1.5em;
+}
